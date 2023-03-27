@@ -20,12 +20,8 @@ y = np.zeros(N+1)
 t[0] = t0
 y[0] = y0
 
-# Use the Runge-Kutta method to compute the first step
-k1 = h * f(y[0], t[0])
-k2 = h * f(y[0] + 0.5 * k1, t[0] + 0.5 * h)
-k3 = h * f(y[0] + 0.5 * k2, t[0] + 0.5 * h)
-k4 = h * f(y[0] + k3, t[0] + h)
-y[1] = y[0] + (k1 + 2*k2 + 2*k3 + k4) / 6
+# Use the Taylor method to compute the first step
+y[1] = y[0] + h * f(y[0], t[0]) + h**2 / 2 * (f(y[0], t[0]) - 0.2 * y[0])
 t[1] = t[0] + h
 
 # Use the Adams-Bashforth method to compute the remaining steps

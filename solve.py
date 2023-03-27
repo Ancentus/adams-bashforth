@@ -8,17 +8,17 @@ def adams_bashforth(f, x0, y0, h, n):
     x = [x0]
     y = [y0]
     for i in range(0, n-1):
-        # Use fourth-order Runge-Kutta to get the next value of y
-        k1 = h*f(x[i], y[i])
-        k2 = h*f(x[i] + 0.5*h, y[i] + 0.5*k1)
-        k3 = h*f(x[i] + 0.5*h, y[i] + 0.5*k2)
-        k4 = h*f(x[i] + h, y[i] + k3)
-        y_next = y[i] + (1/6)*(k1 + 2*k2 + 2*k3 + k4)
-
-        # Use Adams-Bashforth to get the next value of y
-        if i < 3:
-            y_next = y_next # Use fourth-order Runge-Kutta for the first three steps
+        if i == 0:
+            # Use first-order Euler method to get the second value of y
+            y_next = y[i] + h*f(x[i], y[i])
+        elif i == 1:
+            # Use second-order Adams-Bashforth to get the third value of y
+            y_next = y[i] + (h/2)*(3*f(x[i], y[i]) - f(x[i-1], y[i-1]))
+        elif i == 2:
+            # Use third-order Adams-Bashforth to get the fourth value of y
+            y_next = y[i] + (h/12)*(23*f(x[i], y[i]) - 16*f(x[i-1], y[i-1]) + 5*f(x[i-2], y[i-2]))
         else:
+            # Use fourth-order Adams-Bashforth to get the fifth and subsequent values of y
             y_next = y[i] + (h/24)*(55*f(x[i], y[i]) - 59*f(x[i-1], y[i-1]) + 37*f(x[i-2], y[i-2]) - 9*f(x[i-3], y[i-3]))
 
         # Append x and y to their respective lists

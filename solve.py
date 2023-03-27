@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Define the function f(y, t)
 def f(y, t):
@@ -34,10 +35,16 @@ for i in range(2, N+1):
     y[i] = y[i-1] + h * (5/12 * f(y_pred, t_pred) + 2/3 * f(y[i-1], t[i-1]) - 1/12 * f(y[i-2], t[i-2]))
     t[i] = t[i-1] + h
 
+# Create a table of the numerical approximation
+data = {'time t_i': t, 'Adams approx of non-linear y': y}
+df = pd.DataFrame(data)
+print(df)
+
 # Plot the solution
-plt.plot(t, y)
-plt.xlabel('t')
-plt.ylabel('y')
-plt.title('Population growth over time')
+plt.plot(t, y, label='Adams-Bashforth Method')
+plt.title('Non Linear Population Equation')
+plt.legend(loc='best')
+plt.xlabel('time (yrs)')
+plt.ylabel('Population in billions')
 plt.show()
 
